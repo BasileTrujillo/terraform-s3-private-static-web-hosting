@@ -1,0 +1,41 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PrivateReadAccess",
+      "Principal": {
+        "AWS": "*"
+      },
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::${bucket}/*",
+      "Condition": {
+        "IpAddress": {
+          "aws:SourceIp": [
+            "${allowed_ip}"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "PublicReadRestrict",
+      "Principal": {
+        "AWS": "*"
+      },
+      "Effect": "Deny",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::${bucket}/*",
+      "Condition": {
+        "NotIpAddress": {
+          "aws:SourceIp": [
+            "${allowed_ip}"
+          ]
+        }
+      }
+    }
+  ]
+}
