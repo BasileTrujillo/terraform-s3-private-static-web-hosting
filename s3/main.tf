@@ -28,7 +28,9 @@ resource "aws_s3_bucket" "website_bucket" {
     routing_rules  = "${var.routing_rules}"
   }
 
-  //  logging {
+  force_destroy = "${var.force_destroy}"
+
+//  logging {
   //    target_bucket = "${var.log_bucket}"
   //    target_prefix = "${var.log_bucket_prefix}"
   //  }

@@ -10,6 +10,11 @@ variable "deployer" {
   type = "string"
 }
 
+variable "force_destroy" {
+  type = "string"
+  default = "false"
+}
+
 variable "full_domain" {
   type = "string"
 }
