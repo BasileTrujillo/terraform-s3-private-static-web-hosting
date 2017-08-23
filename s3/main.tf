@@ -37,27 +37,3 @@ resource "aws_s3_bucket" "website_bucket" {
 
   tags = "${merge("${var.tags}",map("Name", "${var.full_domain}"))}"
 }
-
-################################################################################################################
-## Configure the credentials and access to the bucket for a deployment user
-################################################################################################################
-data "template_file" "deployer_role_policy_file" {
-  template = "${file("${path.module}/deployer_role_policy.json")}"
-
-  vars {
-    bucket = "${var.full_domain}"
-  }
-}
-
-resource "aws_iam_policy" "site_deployer_policy" {
-  name        = "${var.full_domain}.deployer"
-  path        = "/"
-  description = "Policy allowing to publish a new version of the website to the S3 bucket"
-  policy      = "${data.template_file.deployer_role_policy_file.rendered}"
-}
-
-resource "aws_iam_policy_attachment" "site-deployer-attach-user-policy" {
-  name       = "${var.full_domain}-deployer-policy-attachment"
-  users      = ["${var.deployer}"]
-  policy_arn = "${aws_iam_policy.site_deployer_policy.arn}"
-}
