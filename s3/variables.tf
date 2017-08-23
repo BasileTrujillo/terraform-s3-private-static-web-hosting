@@ -6,6 +6,11 @@ variable "aws_region" {
   default = "eu-west-1"
 }
 
+variable "deployer" {
+  type = "string"
+  default = ""
+}
+
 variable "force_destroy" {
   type = "string"
   default = "false"
